@@ -1,0 +1,6 @@
+{
+  "name": "NW Service Center",
+  "description": "National Welding Machine and Power Tool Service Management System for tracking repair jobs, customers, technicians, and payments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

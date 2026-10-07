@@ -1,0 +1,121 @@
+{
+  "entities": {
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer contact and profile details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "mobileNumber": { "type": "string", "maxLength": 20 },
+        "totalJobs": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "mobileNumber"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Repair job card for welding machine or power tool",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobNumber": { "type": "string", "maxLength": 20 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "mobileNumber": { "type": "string", "maxLength": 20 },
+        "machineBrand": { "type": "string", "maxLength": 60 },
+        "machineModel": { "type": "string", "maxLength": 60 },
+        "machineType": { "type": "string", "maxLength": 60 },
+        "serialNumber": { "type": "string", "maxLength": 60 },
+        "complaint": { "type": "string", "maxLength": 500 },
+        "machinePhoto": { "type": "string", "maxLength": 500000 },
+        "receivedDate": { "type": "string", "maxLength": 30 },
+        "expectedDeliveryDate": { "type": "string", "maxLength": 30 },
+        "repairedDate": { "type": "string", "maxLength": 30 },
+        "dispatchedDate": { "type": "string", "maxLength": 30 },
+        "status": {
+          "type": "string",
+          "enum": ["Received", "Pending", "Checking", "Repairing", "Repaired", "Dispatched"]
+        },
+        "repairCost": { "type": "number" },
+        "advancePaid": { "type": "number" },
+        "balanceAmount": { "type": "number" },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["Paid", "Partial", "Pending"]
+        },
+        "technician": { "type": "string", "maxLength": 100 },
+        "technicianRemark": { "type": "string", "maxLength": 500 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["jobNumber", "customerName", "mobileNumber", "machineBrand", "machineModel", "status"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Payment transaction record against a job card",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string", "maxLength": 128 },
+        "jobNumber": { "type": "string", "maxLength": 20 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "amount": { "type": "number" },
+        "paymentType": { "type": "string", "enum": ["Advance", "Final", "Partial"] },
+        "paymentMode": { "type": "string", "enum": ["Cash", "UPI", "Card", "Bank Transfer"] },
+        "date": { "type": "string", "maxLength": 30 },
+        "notes": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["jobId", "jobNumber", "amount", "paymentMode", "date"]
+    },
+    "Technician": {
+      "title": "Technician",
+      "description": "Technician profile for service management",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "specialization": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name"]
+    },
+    "InventoryItem": {
+      "title": "InventoryItem",
+      "description": "Spare parts stock item for welding machines & tools",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "partName": { "type": "string", "maxLength": 100 },
+        "partNumber": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "maxLength": 50 },
+        "quantity": { "type": "number" },
+        "unitPrice": { "type": "number" },
+        "minThreshold": { "type": "number" }
+      },
+      "required": ["partName", "quantity"]
+    }
+  },
+  "firestore": {
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Registered customers and repair history index"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Active and past welding machine / power tool repair jobs"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Repair payments and cash/UPI receipts"
+    },
+    "/technicians/{technicianId}": {
+      "schema": "Technician",
+      "description": "Workshop technicians and specialists"
+    },
+    "/inventory/{itemId}": {
+      "schema": "InventoryItem",
+      "description": "Workshop spare parts inventory"
+    }
+  }
+}
